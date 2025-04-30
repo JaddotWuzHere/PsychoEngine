@@ -25,7 +25,7 @@ public class Renderer {
 
         int loc = GL20.glGetUniformLocation(superShader, "uMatrix");
         FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
-        matrix4f.get(buffer); // Write matrix into buffer
+        matrix4f.get(buffer);
         GL20.glUniformMatrix4fv(loc, false, buffer);
 
         cube.draw();

@@ -50,12 +50,23 @@ public class Main {
             glfwPollEvents();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            float time = (float) glfwGetTime();
+            //WASD LET'S GOOOOO
+            if (glfwGetKey(gameWindow, GLFW_KEY_W) == GLFW_PRESS) {
+                camera.move(new Vector3f(0, 0, -0.03f));
+            } else if (glfwGetKey(gameWindow, GLFW_KEY_S) == GLFW_PRESS) {
+                camera.move(new Vector3f(0, 0, 0.03f));
+            } else if (glfwGetKey(gameWindow, GLFW_KEY_A) == GLFW_PRESS) {
+                camera.move(new Vector3f(-0.03f, 0, 0));
+            } else if (glfwGetKey(gameWindow, GLFW_KEY_D) == GLFW_PRESS) {
+                camera.move(new Vector3f(0.03f, 0, 0));
+            } else if (glfwGetKey(gameWindow, GLFW_KEY_SPACE) == GLFW_PRESS) {
+                camera.move(new Vector3f(0, 0.03f, 0));
+            } else if (glfwGetKey(gameWindow, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+                camera.move(new Vector3f(0, -0.03f, 0));
+            }
 
             //rotate camera
-            Matrix4f model = new Matrix4f()
-                    .rotateY(time * 0.5f)
-                    .rotateX(time * 0.3f);
+            Matrix4f model = new Matrix4f();
 
             Matrix4f superMatrix = camera.getSuperMatrix(model);
             renderer.render(superMatrix);

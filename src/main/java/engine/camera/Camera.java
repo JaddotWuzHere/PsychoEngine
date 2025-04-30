@@ -22,18 +22,8 @@ public class Camera {
         this.far = 100f;
     }
 
-    //position: where you are
-    public Matrix4f getViewMatrix() {
-        return new Matrix4f().lookAt(pos, target, up);
-    }
-
-    //projection: how your nearsighted eyeballs see
-    public Matrix4f getProjectionMatrix() {
-        return new Matrix4f().perspective(fov, aspr, near, far);
-    }
-
     public Matrix4f getSuperMatrix(Matrix4f model) {
-        return getProjectionMatrix().mul(getViewMatrix().mul(model));
+        return new Matrix4f().perspective(fov, aspr, near, far).mul(new Matrix4f().lookAt(pos, target, up).mul(model));
     }
 
     //move camera

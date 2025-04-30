@@ -15,15 +15,14 @@ public class Cube {
    private final int ebo;
 
     private final float[] vertices = {
-            // x, y, z,    r, g, b
-            -0.5f, -0.5f, -0.5f, 0f, 0f, 1f,
-            0.5f, -0.5f, -0.5f, 0f, 0f, 1f,
-            0.5f,  0.5f, -0.5f, 0f, 0f, 1f,
-            -0.5f,  0.5f, -0.5f, 0f, 0f, 1f,
-            -0.5f, -0.5f,  0.5f, 0f, 0f, 1f,
-            0.5f, -0.5f,  0.5f, 0f, 0f, 1f,
-            0.5f,  0.5f,  0.5f, 0f, 0f, 1f,
-            -0.5f,  0.5f,  0.5f, 0f, 0f, 1f
+            -0.5f, -0.5f, -0.5f, 1f, 0f, 0f,
+            0.5f, -0.5f, -0.5f, 1f, 0f, 1f,
+            0.5f,  0.5f, -0.5f, 1f, 0f, 0f,
+            -0.5f,  0.5f, -0.5f, 1f, 0f, 0f,
+            -0.5f, -0.5f,  0.5f, 1f, 0f, 0f,
+            0.5f, -0.5f,  0.5f, 1f, 0f, 0f,
+            0.5f,  0.5f,  0.5f, 1f, 0f, 0f,
+            -0.5f,  0.5f,  0.5f, 1f, 0f, 0f
     };
 
     private final int[] indices = {
