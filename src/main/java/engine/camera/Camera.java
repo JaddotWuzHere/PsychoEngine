@@ -26,8 +26,7 @@ public class Camera {
         return new Matrix4f().perspective(fov, aspr, near, far).mul(new Matrix4f().lookAt(pos, target, up).mul(model));
     }
 
-    //move camera
-    //TODO: make wasd for camera
+    //how the camera should move if called upon
     public void move(Vector3f offset) {
         pos.add(offset);
         target.add(offset);
