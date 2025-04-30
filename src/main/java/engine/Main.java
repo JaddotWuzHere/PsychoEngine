@@ -51,18 +51,31 @@ public class Main {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             //WASD LET'S GOOOOO
+            Vector3f movementVector = new Vector3f(0, 0, 0);
+            float cameraSpeed = 0.03f;
             if (glfwGetKey(gameWindow, GLFW_KEY_W) == GLFW_PRESS) {
-                camera.move(new Vector3f(0, 0, -0.03f));
-            } else if (glfwGetKey(gameWindow, GLFW_KEY_S) == GLFW_PRESS) {
-                camera.move(new Vector3f(0, 0, 0.03f));
-            } else if (glfwGetKey(gameWindow, GLFW_KEY_A) == GLFW_PRESS) {
-                camera.move(new Vector3f(-0.03f, 0, 0));
-            } else if (glfwGetKey(gameWindow, GLFW_KEY_D) == GLFW_PRESS) {
-                camera.move(new Vector3f(0.03f, 0, 0));
-            } else if (glfwGetKey(gameWindow, GLFW_KEY_SPACE) == GLFW_PRESS) {
-                camera.move(new Vector3f(0, 0.03f, 0));
-            } else if (glfwGetKey(gameWindow, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-                camera.move(new Vector3f(0, -0.03f, 0));
+                movementVector = movementVector.add(new Vector3f(0, 0, -cameraSpeed));
+            }
+            if (glfwGetKey(gameWindow, GLFW_KEY_S) == GLFW_PRESS) {
+                movementVector = movementVector.add(new Vector3f(0, 0, cameraSpeed));
+            }
+            if (glfwGetKey(gameWindow, GLFW_KEY_A) == GLFW_PRESS) {
+                movementVector = movementVector.add(new Vector3f(-cameraSpeed, 0, 0));
+            }
+            if (glfwGetKey(gameWindow, GLFW_KEY_D) == GLFW_PRESS) {
+                movementVector = movementVector.add(new Vector3f(cameraSpeed, 0, 0));
+            }
+            if (glfwGetKey(gameWindow, GLFW_KEY_SPACE) == GLFW_PRESS) {
+                movementVector = movementVector.add(new Vector3f(0, cameraSpeed, 0));
+            }
+            if (glfwGetKey(gameWindow, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+                movementVector = movementVector.add(new Vector3f(0, -cameraSpeed, 0));
+            }
+
+            //kill extra speed when it's moving too fast
+            if (movementVector.lengthSquared() != 0) {
+                movementVector.normalize().mul(cameraSpeed);
+                camera.move(movementVector);
             }
 
             //rotate camera
