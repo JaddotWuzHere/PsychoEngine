@@ -1,7 +1,7 @@
 package engine;
 
 import engine.camera.Camera;
-import engine.camera.CameraMove;
+import engine.camera.CameraControl;
 import engine.render.Renderer;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -39,12 +39,11 @@ public class Main {
         //camera
         Camera camera = new Camera(
                 new Vector3f(0, 0, 3),
-                new Vector3f(0, 0, 0),
                 (float) windowWidth / windowHeight
         );
 
         //enables the camera to have WASD LET'S GOOOOO
-        CameraMove cameraMove = new CameraMove(camera, gameWindow);
+        CameraControl cameraMove = new CameraControl(camera, gameWindow);
 
         Renderer renderer = new Renderer();
 
@@ -56,7 +55,7 @@ public class Main {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             //checks conditions to move camera
-            cameraMove.cameraMove();
+            cameraMove.update();
 
             //camera matrix for perspective stuff
             Matrix4f model = new Matrix4f();
