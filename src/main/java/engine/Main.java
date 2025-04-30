@@ -25,6 +25,9 @@ public class Main {
         //creates window
         long gameWindow = glfwCreateWindow(windowWidth, windowHeight, windowTitle, 0 ,0);
 
+        //hides mouse, infinite camera movement essentially
+        glfwSetInputMode(gameWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
         //error logging
         if (gameWindow == 0) {
             glfwTerminate();
@@ -63,6 +66,12 @@ public class Main {
             renderer.render(superMatrix);
 
             glfwSwapBuffers(gameWindow);
+
+            //press escape to terminate
+            if (glfwGetKey(gameWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+                glfwSetWindowShouldClose(gameWindow, true);
+            }
+
         }
 
         //KILL IT MUAHAHA

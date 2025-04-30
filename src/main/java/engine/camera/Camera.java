@@ -60,7 +60,7 @@ public class Camera {
 
     public void rotate(float changeYaw, float changePitch) {
         yaw += changeYaw * sensitivity;
-        pitch += changePitch * sensitivity;
+        pitch -= changePitch * sensitivity;
         //clamp pitch so camera doesn't experience dumb issues when looking straight up/down
         pitch = Math.max(-89f, Math.min(89f, pitch));
         updateCameraDirections();

@@ -39,16 +39,16 @@ public class CameraControl {
         float cameraSpeed = 0.03f;
 
         if (glfwGetKey(gameWindow, GLFW_KEY_W) == GLFW_PRESS) {
-            movementVector.add(new Vector3f(camera.getFront()).mul(cameraSpeed));
+            movementVector.add(new Vector3f(camera.getFront().x, 0, camera.getFront().z).mul(cameraSpeed));
         }
         if (glfwGetKey(gameWindow, GLFW_KEY_S) == GLFW_PRESS) {
-            movementVector.add(new Vector3f(camera.getFront()).mul(-cameraSpeed));
+            movementVector.add(new Vector3f(camera.getFront().x, 0, camera.getFront().z).mul(-cameraSpeed));
         }
         if (glfwGetKey(gameWindow, GLFW_KEY_A) == GLFW_PRESS) {
-            movementVector.add(new Vector3f(camera.getRight()).mul(-cameraSpeed));
+            movementVector.add(new Vector3f(camera.getRight().x, 0, camera.getRight().z).mul(-cameraSpeed));
         }
         if (glfwGetKey(gameWindow, GLFW_KEY_D) == GLFW_PRESS) {
-            movementVector.add(new Vector3f(camera.getRight()).mul(cameraSpeed));
+            movementVector.add(new Vector3f(camera.getRight().x, 0, camera.getRight().z).mul(cameraSpeed));
         }
         if (glfwGetKey(gameWindow, GLFW_KEY_SPACE) == GLFW_PRESS) {
             movementVector.add(new Vector3f(camera.getUp()).mul(cameraSpeed));
