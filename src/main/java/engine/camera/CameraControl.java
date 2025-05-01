@@ -29,14 +29,14 @@ public class CameraControl {
     }
 
     //actually "move" the camera
-    public void update() {
-        cameraWASD();
-        cameraLook();
+    public void update(float deltaTime) {
+        cameraWASD(deltaTime);
+        cameraLook(deltaTime);
     }
 
-    public void cameraWASD() {
+    public void cameraWASD(float deltaTime) {
         Vector3f movementVector = new Vector3f(0, 0, 0);
-        float cameraSpeed = 0.03f;
+        float cameraSpeed = 3f;
 
         if (glfwGetKey(gameWindow, GLFW_KEY_W) == GLFW_PRESS) {
             movementVector.add(new Vector3f(camera.getFront().x, 0, camera.getFront().z).mul(cameraSpeed));
@@ -59,12 +59,12 @@ public class CameraControl {
 
         //kill extra speed when it's moving too fast
         if (movementVector.lengthSquared() != 0) {
-            movementVector.normalize().mul(cameraSpeed);
+            movementVector.normalize().mul(cameraSpeed * deltaTime);
             camera.move(movementVector);
         }
     }
 
-    public void cameraLook() {
+    public void cameraLook(float deltaTime) {
         DoubleBuffer mouseX = BufferUtils.createDoubleBuffer(1);
         DoubleBuffer mouseY = BufferUtils.createDoubleBuffer(1);
         glfwGetCursorPos(gameWindow, mouseX, mouseY);

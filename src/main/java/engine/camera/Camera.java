@@ -12,10 +12,9 @@ public class Camera {
 
     private float yaw = -90.0f;  //default
     private float pitch = 0.0f; //default
-    private final float sensitivity = 0.1f;
 
-    private Vector3f front = new Vector3f(0, 0, -1);
-    private Vector3f right = new Vector3f(1, 0, 0);
+    private final Vector3f front = new Vector3f(0, 0, -1);
+    private final Vector3f right = new Vector3f(1, 0, 0);
     private final Vector3f up;
 
 
@@ -28,14 +27,10 @@ public class Camera {
         this.far = 100f;
     }
 
-    public Matrix4f getViewMatrix() {
-        return new Matrix4f().lookAt(pos, new Vector3f(pos).add(front), up);
-    }
-
     public Matrix4f getSuperMatrix(Matrix4f model) {
         return new Matrix4f()
                 .perspective(fov, aspr, near, far)
-                .mul(getViewMatrix())
+                .mul(new Matrix4f().lookAt(pos, new Vector3f(pos).add(front), up))
                 .mul(model);
     }
 
@@ -45,11 +40,12 @@ public class Camera {
         pos.add(offset);
     }
 
+    //where the camera should move after looking around
     private void updateCameraDirections() {
         float yawRadians = (float) Math.toRadians(yaw);
         float pitchRadians = (float) Math.toRadians(pitch);
 
-        //get direction after moving camera
+        //get direction after moving camera with TRIG ew
         float x = (float) (Math.cos(pitchRadians) * Math.cos(yawRadians));
         float y = (float) (Math.sin(pitchRadians));
         float z = (float) (Math.cos(pitchRadians) * Math.sin(yawRadians));
@@ -58,7 +54,9 @@ public class Camera {
         right.set(front).cross(up).normalize();
     }
 
+    //actually makes the camera look around
     public void rotate(float changeYaw, float changePitch) {
+        float sensitivity = 0.1f;
         yaw += changeYaw * sensitivity;
         pitch -= changePitch * sensitivity;
         //clamp pitch so camera doesn't experience dumb issues when looking straight up/down

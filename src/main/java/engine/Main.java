@@ -6,6 +6,9 @@ import engine.render.Renderer;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
+
+import java.io.IOException;
+
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -15,7 +18,7 @@ public class Main {
         final int windowHeight = 900;
         final String windowTitle = "PsychoEngine";
 
-        System.out.println("PsychoEngine bootin up yay");
+        System.out.println("[STARTUP] PsychoEngine bootin up yay");
 
         //error logging
         if (!glfwInit()) {
@@ -46,19 +49,66 @@ public class Main {
         );
 
         //enables the camera to have WASD LET'S GOOOOO
-        CameraControl cameraMove = new CameraControl(camera, gameWindow);
+        CameraControl cameraControl = new CameraControl(camera, gameWindow);
+
+        //fps counter
+        FpsCounter fpsCounter = new FpsCounter();
+        try {
+            fpsCounter.initText();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         Renderer renderer = new Renderer();
 
         glClearColor(0f, 0f, 0f, 0f);
+
+        //get last delta time (used for fps counting)
+        long lastTime = System.nanoTime();
 
         //main loop for game
         while (!glfwWindowShouldClose(gameWindow)) {
             glfwPollEvents();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+            //fps counter stuff
+            long currentTime = System.nanoTime();
+            float deltaTime = (currentTime - lastTime) / 1_000_000_000f;
+            lastTime = currentTime;
+
+            float currentFPS = fpsCounter.getFPS();
+
+            Matrix4f ortho = new Matrix4f().ortho(
+                    0, windowWidth,       //left to right
+                    0, windowHeight,      //bottom to top
+                    -1, 1                 //near/far planes
+            );
+
+            float x = 10f;
+            float y = windowHeight - 30f;
+
+            //go to 2d
+            glMatrixMode(GL_PROJECTION);
+            glPushMatrix();
+            glLoadIdentity();
+            glOrtho(0, windowWidth, windowHeight, 0, -1, 1);
+
+            glMatrixMode(GL_MODELVIEW);
+            glPushMatrix();
+            glLoadIdentity();
+
+            //render the fps text
+            fpsCounter.renderText("FPS: " + currentFPS, 20, 30);
+
+            //back to 3d
+            glPopMatrix();
+            glMatrixMode(GL_PROJECTION);
+            glPopMatrix();
+            glMatrixMode(GL_MODELVIEW);
+
             //checks conditions to move camera
-            cameraMove.update();
+            cameraControl.update(deltaTime);
 
             //camera matrix for perspective stuff
             Matrix4f model = new Matrix4f();
