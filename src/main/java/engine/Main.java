@@ -62,7 +62,7 @@ public class Main {
 
         Renderer renderer = new Renderer();
 
-        glClearColor(0f, 0f, 0f, 0f);
+        glClearColor(0f, 0f, 0f, 1f);
 
         //get last delta time (used for fps counting)
         long lastTime = System.nanoTime();
@@ -85,10 +85,18 @@ public class Main {
                     -1, 1                 //near/far planes
             );
 
+            //checks conditions to move camera
+            cameraControl.update(deltaTime);
+
+            //camera matrix for perspective stuff
+            Matrix4f model = new Matrix4f();
+            Matrix4f superMatrix = camera.getSuperMatrix(model);
+            renderer.render(superMatrix);
+
+            //display fps on screen
             float x = 10f;
             float y = windowHeight - 30f;
 
-            //go to 2d
             glMatrixMode(GL_PROJECTION);
             glPushMatrix();
             glLoadIdentity();
@@ -98,22 +106,22 @@ public class Main {
             glPushMatrix();
             glLoadIdentity();
 
-            //render the fps text
-            fpsCounter.renderText("FPS: " + currentFPS, 20, 30);
+            glDisable(GL_DEPTH_TEST);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-            //back to 3d
+            glColor4f(1f, 1f, 1f, 1f);
+
+            fpsCounter.renderText("FPS: " + currentFPS, 10, 30);
+
+            glDisable(GL_BLEND);
+            glEnable(GL_DEPTH_TEST);
+
             glPopMatrix();
             glMatrixMode(GL_PROJECTION);
             glPopMatrix();
             glMatrixMode(GL_MODELVIEW);
 
-            //checks conditions to move camera
-            cameraControl.update(deltaTime);
-
-            //camera matrix for perspective stuff
-            Matrix4f model = new Matrix4f();
-            Matrix4f superMatrix = camera.getSuperMatrix(model);
-            renderer.render(superMatrix);
 
             glfwSwapBuffers(gameWindow);
 

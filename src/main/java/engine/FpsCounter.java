@@ -65,11 +65,19 @@ public class FpsCounter {
 
         fontTextureID = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, fontTextureID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, BITMAP_W, BITMAP_H, 0, GL_RED, GL_UNSIGNED_BYTE, bitmap);
+
+        glTexImage2D(GL_TEXTURE_2D,
+                0,
+                GL_ALPHA,
+                BITMAP_W,
+                BITMAP_H,
+                0,
+                GL_RED,
+                GL_UNSIGNED_BYTE,
+                bitmap);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_R, GL_RED);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_RED);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_RED);
+
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     }
 
